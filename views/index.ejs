@@ -4,8 +4,27 @@
   <title>Google Book Seach </title> 
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css">
   <script type="text/javascript" src="https://code.jquery.com/jquery-2.2.4.min.js"></script> 
+  <style>
+    #loading{
+      display: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      right:0;
+      bottom: 0;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 999;
+      text-align: center;
+      font-size: 32px;
+      color: white;
+      padding-top: 40vh;
+    }
+  </style>
 </head>
 <body class="container">
+  <div id="loading">
+    Loading .......
+  </div>
   <main>
     <div class="jumbotron">
       <h2>Google Book Seach</h2>
@@ -39,6 +58,7 @@
 <script type="text/javascript" >
   //search by title
   function searchBooks(){
+    $("#loading").show()
     var params = { search_query: $("#search_query").val() }
     $.post({
       data:params,
@@ -50,11 +70,13 @@
           $("#search_results").append(res_row)
         }
         $("#search_div").show()
+        $("#loading").hide()
       }
     })
   }
   //function to download individual book
   function download_book(book_id,date){
+    $("#loading").show()
     book_id = book_id.toString().replace(/\//g, '');
     var params = { book_id : book_id,date:date }
     
@@ -63,6 +85,7 @@
       url:'download_book',
       success:function(data){
         console.log(data)
+        $("#loading").hide()
       }
     })
   }
